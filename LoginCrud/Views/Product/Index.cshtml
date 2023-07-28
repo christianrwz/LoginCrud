@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Product>
+
+<h3>Products</h3>
+
+<div class="row">
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["Message"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    <div class="col-12 d-flex justify-content-end">
+        <a asp-action="Create" class="btn btn-primary mb-2">New Product</a>
+    </div>
+    <div class="col-12">
+        <table class="table">
+            <colgroup>
+                <col class="col-3" />
+                <col class="col-7" />
+                <col class="col-2" />
+            </colgroup>
+            <thead class="bg-dark text-light">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Count() != 0)
+                {
+                    @foreach (var product in Model)
+                    {
+                        <tr>
+                            <td>@product.Name</td>
+                            <td>@product.Description</td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-primary">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td class="col-12 text-center">
+                            No data.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
