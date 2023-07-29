@@ -7,13 +7,19 @@ namespace LoginCrud.Controllers
 {
     public class ProductController : BaseController
     {
-        private readonly IBaseRepository<Product> _repository;
-        public ProductController(IBaseRepository<Product> repository) {
+        private readonly IProductRepository _repository;
+        public ProductController(IProductRepository repository) {
             _repository = repository;
         }
         public async Task<IActionResult> Index(PaginatedRequest request)
         {
-            var products = await _repository.GetPaginated(request.PageNumber, PaginatedRequest.ITEMS_PER_PAGE);
+            var products = await _repository.GetPaginated
+                (
+                    request.PageNumber, 
+                    PaginatedRequest.ITEMS_PER_PAGE, 
+                    request.SearchKeyword ?? string.Empty
+                );
+            products.SearchKeyword = request.SearchKeyword;
             return View(products);
         }
 

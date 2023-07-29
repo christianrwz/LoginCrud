@@ -2,6 +2,7 @@
 using LoginCrud.Contracts;
 using LoginCrud.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace LoginCrud.Repositories
 {
@@ -41,10 +42,11 @@ namespace LoginCrud.Repositories
             return await _table.FindAsync(id);
         }
 
-        public async Task<PaginatedResult<T>> GetPaginated(int page, int pageSize)
+        public async Task<PaginatedResult<T>> GetPaginated(int page, int pageSize, Expression<Func<T, bool>> condition)
         {
-            var count = await _table.CountAsync();
+            var count = await _table.Where(condition).CountAsync();
             var records = await _table
+                .Where(condition)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
