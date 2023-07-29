@@ -1,6 +1,6 @@
 ﻿@model Product
 
-<p>Delete Product</p>
+<h3>Delete Product</h3>
 
 <div class="row">
     <form asp-action="ConfirmedDelete" asp-route-id="@Model.Id" method="post">
@@ -10,7 +10,7 @@
         </div>
         <div class="col-12">
             <a asp-action="Index" class="btn btn-primary">Cancel</a>
-            <button type="submit" class="btn btn-danger">Cancel</button>
+            <button type="submit" class="btn btn-danger">Delete</button>
         </div>
     </form>
 </div>

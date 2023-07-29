@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Product>
+﻿@*@model IEnumerable<Product>*@
+@model PaginatedResult<Product>
 
 <h3>Products</h3>
 
@@ -14,7 +15,7 @@
         <a asp-action="Create" class="btn btn-primary mb-2">New Product</a>
     </div>
     <div class="col-12">
-        <table class="table">
+        <table class="table table-sm">
             <colgroup>
                 <col class="col-3" />
                 <col class="col-7" />
@@ -24,13 +25,13 @@
                 <tr>
                     <th scope="col">Name</th>
                     <th scope="col">Description</th>
-                    <th scope="col"></th>
+                    <th scope="col">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                @if (Model != null && Model.Count() != 0)
+                @if (Model.Result != null && Model.Result.Count() != 0)
                 {
-                    @foreach (var product in Model)
+                    @foreach (var product in Model.Result)
                     {
                         <tr>
                             <td>@product.Name</td>
@@ -52,5 +53,31 @@
                 }
             </tbody>
         </table>
+        <nav>
+            <ul class="pagination justify-content-center">
+                <li class="page-item @(Model.Page == 1 ? "disabled" : "")">
+                    <a class="page-link" asp-route-p="@(Model.Page - 1)">Previous</a>
+                </li>
+
+                @for (var pageNumber = 1; pageNumber <= Model.TotalCount; pageNumber++)
+                {
+                    if(pageNumber == Model.Page)
+                    {
+                        <li class="page-item active">
+                            <span class="page-link">@pageNumber</span>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item">
+                            <a class="page-link" asp-route-p="@pageNumber">@pageNumber</a>
+                        </li>
+                    }
+                }
+                <li class="page-item @(Model.Page == Model.TotalCount ? "disabled" : "")">
+                    <a class="page-link" asp-route-p="@(Model.Page + 1)">Next</a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </div>

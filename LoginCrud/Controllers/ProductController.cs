@@ -1,4 +1,5 @@
-﻿using LoginCrud.Contracts;
+﻿using LoginCrud.Common;
+using LoginCrud.Contracts;
 using LoginCrud.Data;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,9 +11,9 @@ namespace LoginCrud.Controllers
         public ProductController(IBaseRepository<Product> repository) {
             _repository = repository;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(PaginatedRequest request)
         {
-            var products = await _repository.GetAll();
+            var products = await _repository.GetPaginated(request.PageNumber, PaginatedRequest.ITEMS_PER_PAGE);
             return View(products);
         }
 
